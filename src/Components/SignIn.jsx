@@ -4,8 +4,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../Contexts/User";
 
 export default function SignIn() {
+  const {setUserInfo} = useUser();
+  
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -26,7 +29,11 @@ export default function SignIn() {
       console.log(response);
 
       const accessToken = response.data.token;
+      const name = response.data.username;
+      const id = response.data.id;
       localStorage.setItem('accessToken', accessToken);
+
+      setUserInfo({name,id});
       
       toast.success(`Welcome back ${response.data.username}!`);
       setFormData({
