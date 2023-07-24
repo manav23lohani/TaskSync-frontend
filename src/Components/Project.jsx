@@ -9,8 +9,8 @@ function Project({title, description,techstack}) {
         <Card.Text>
         {description}
         </Card.Text>
-        <Card.Link href="#">Edit</Card.Link>
-        <Card.Link href="#">Delete</Card.Link>
+        <Card.Link style={{textDecoration: 'none'}} href="#">✏️Update</Card.Link>
+        <Card.Link style={{textDecoration: 'none'}} href="#">❌Delete</Card.Link>
       </Card.Body>
     </Card>
   );
