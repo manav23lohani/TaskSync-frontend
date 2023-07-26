@@ -3,19 +3,21 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Project from "../Components/Project";
-import { Row, Col, Nav, Container, Navbar, Form, Button, Spinner } from "react-bootstrap";
+import { Row, Col, Nav, Container, Navbar, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../Contexts/AuthContext';
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
-  const [login, setLogin] = useState(false);
+  const { loggedIn, handleLogout } = useAuth();
+
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userinfo"));
   useEffect(() => {
     fetchData();
   }, []);
-  const handleLogout = ()=>{
-    localStorage.clear();
+  const clickedLogout = ()=>{
+    handleLogout();
     toast.done("Logged out successfully");
     navigate('/signin');
   }
@@ -30,7 +32,6 @@ const Dashboard = () => {
       });
       // console.log(response);
       setData(response.data);
-      setLogin(true);
     } 
     catch (err) {
       toast.warn("Please login first!", {
@@ -41,7 +42,7 @@ const Dashboard = () => {
   };
   return (
     <>
-    {login && (
+    {loggedIn && (
       <div>
       <Navbar expand="lg" className="bg-body-tertiary mb-3 px-3">
         <Container fluid>
@@ -65,7 +66,7 @@ const Dashboard = () => {
             </Nav>
             <Navbar.Brand className="ml-3 font-weight-bold">Welcome {user.name}
             </Navbar.Brand>
-            <Button onClick={handleLogout} className="btn-secondary mr-3">Logout</Button>
+            <Button onClick={clickedLogout} className="btn-secondary mr-3">Logout</Button>
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -84,11 +85,6 @@ const Dashboard = () => {
       <ToastContainer/>
     </div>
     )}
-    {!login && (
-          <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-          <Spinner animation="border" role="status" />
-          <div >Loading...</div>
-        </div>)}
     </>
   );
 };

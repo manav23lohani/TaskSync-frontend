@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Route, Routes, BrowserRouter } from 'react-rou
 import SignUp from './Components/SignUp';
 import SignIn from './Components/SignIn';
 import Dashboard from './Components/Dashboard';
+import { useAuth } from './Contexts/AuthContext';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
-  const loggedIn = localStorage.getItem('accessToken') !== null;
+  // const loggedIn = localStorage.getItem('accessToken') !== null;
+  const { loggedIn } = useAuth();
   return (
     <BrowserRouter>
     <Routes>

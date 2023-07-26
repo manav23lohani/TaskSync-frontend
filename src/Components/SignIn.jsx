@@ -4,12 +4,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../Contexts/AuthContext';
 
 export default function SignIn() {  
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+  const { handleLogin } = useAuth();
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +30,7 @@ export default function SignIn() {
       const name = response.data.username;
       const id = response.data.id;
 
-      localStorage.setItem('accessToken', accessToken);
+      handleLogin(accessToken);
       localStorage.setItem('userinfo', JSON.stringify({name,id}));
       setFormData({
         email: '',
