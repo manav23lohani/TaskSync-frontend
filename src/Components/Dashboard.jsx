@@ -53,8 +53,8 @@ const Dashboard = () => {
               className="me-auto my-2 my-lg-0"
               navbarScroll
             >
-              <Nav.Link href="#action1">New Project</Nav.Link>
-              <Nav.Link href="#action2">Notifications</Nav.Link>
+              <Nav.Link onClick={()=>navigate('/addproject')}>New Project</Nav.Link>
+              <Nav.Link onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
               <Form className="d-flex">
               <Form.Control
                 type="search"
@@ -70,18 +70,21 @@ const Dashboard = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Row className="justify-content-around">
+       <Container className="my-4 mx-auto" style={{ maxWidth: "1200px" }}>
+      <Row>
         {data.map((item) => (
-          <Col key={item.id} xs={12} sm={6} md={4} lg={3} xl={2}>
+          <Col className="my-3" key={item.id} xs={12} sm={6} md={4} lg={4}>
             <Project
               title={item.title}
               description={item.description}
               techstack={item.techStack}
-              isOwner={item.user_id===user.id}
+              isOwner={item.user_id === user.id}
+              projectId={item._id}
             />
           </Col>
         ))}
       </Row>
+    </Container>
       <ToastContainer/>
     </div>
     )}
