@@ -6,11 +6,15 @@ import Dashboard from './Components/Dashboard';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
+  const loggedIn = localStorage.getItem('accessToken') !== null;
   return (
     <BrowserRouter>
     <Routes>
-        <Route path="/signup" element={<SignUp/>} />
-        <Route path="/signin" element={<SignIn/>} />
+        {loggedIn && <Route path="/" element={<Dashboard/>} />}
+        {!loggedIn && <Route path="/" element={<SignIn/>} />}
+
+        {!loggedIn && <Route path="/signup" element={<SignUp/>} />}
+        {!loggedIn && <Route path="/signin" element={<SignIn/>} />}
         <Route path="/dashboard" element={<Dashboard/>} />
     </Routes>
     </BrowserRouter>

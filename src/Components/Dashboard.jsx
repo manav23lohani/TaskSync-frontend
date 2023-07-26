@@ -3,12 +3,12 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Project from "../Components/Project";
-import { Row, Col, Nav, Container, Navbar, Form, Button } from "react-bootstrap";
+import { Row, Col, Nav, Container, Navbar, Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
-  const [login, setLogin] = useState(0);
+  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userinfo"));
   useEffect(() => {
@@ -16,7 +16,6 @@ const Dashboard = () => {
   }, []);
   const handleLogout = ()=>{
     localStorage.clear();
-    setLogin(0);
     toast.done("Logged out successfully");
     navigate('/signin');
   }
@@ -31,7 +30,7 @@ const Dashboard = () => {
       });
       // console.log(response);
       setData(response.data);
-      setLogin(1);
+      setLogin(true);
     } 
     catch (err) {
       toast.warn("Please login first!", {
@@ -64,7 +63,8 @@ const Dashboard = () => {
               />
             </Form>
             </Nav>
-            <Navbar.Brand className="ml-3 font-weight-bold">Welcome {user.name}</Navbar.Brand>
+            <Navbar.Brand className="ml-3 font-weight-bold">Welcome {user.name}
+            </Navbar.Brand>
             <Button onClick={handleLogout} className="btn-secondary mr-3">Logout</Button>
           </Navbar.Collapse>
         </Container>
@@ -76,6 +76,7 @@ const Dashboard = () => {
               title={item.title}
               description={item.description}
               techstack={item.techStack}
+              isOwner={item.user_id===user.id}
             />
           </Col>
         ))}
@@ -83,6 +84,11 @@ const Dashboard = () => {
       <ToastContainer/>
     </div>
     )}
+    {!login && (
+          <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+          <Spinner animation="border" role="status" />
+          <div >Loading...</div>
+        </div>)}
     </>
   );
 };
