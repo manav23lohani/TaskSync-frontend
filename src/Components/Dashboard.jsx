@@ -21,6 +21,11 @@ const Dashboard = () => {
     toast.done("Logged out successfully");
     navigate('/signin');
   }
+  const handleProjectDeletion = (deletedProjectId) => {
+    setData((data) => data.filter((item) => item._id !== deletedProjectId));
+    toast.success("Project deleted successfully");
+  };
+
   const fetchData = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -80,6 +85,7 @@ const Dashboard = () => {
               techstack={item.techStack}
               isOwner={item.user_id === user.id}
               projectId={item._id}
+              onDelete={handleProjectDeletion}
             />
           </Col>
         ))}

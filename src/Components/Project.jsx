@@ -1,9 +1,18 @@
 import { Badge, Card } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function Project({ title, description, techstack, isOwner, projectId }) {
+function Project({
+  title,
+  description,
+  techstack,
+  isOwner,
+  projectId,
+  onDelete,
+}) {
   // console.log(projectId);
+  const navigate = useNavigate();
   const deleteProject = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -16,12 +25,15 @@ function Project({ title, description, techstack, isOwner, projectId }) {
           headers,
         }
       );
-      toast.success("Project deleted successfully");
+      onDelete(projectId);
       console.log(response);
     } catch (err) {
       toast.warn(err.response.data.message);
       console.log(err);
     }
+  };
+  const updateProject = () => {
+    navigate("/updateproject", { state: { projectId } });
   };
   return (
     <Card>
@@ -36,7 +48,11 @@ function Project({ title, description, techstack, isOwner, projectId }) {
         <Card.Text>{description}</Card.Text>
         {isOwner && (
           <div>
-            <Card.Link style={{ textDecoration: "none" }} href="#">
+            <Card.Link
+              style={{ textDecoration: "none", cursor: "pointer" }}
+              // dont'pass project id here!
+              onClick={updateProject}
+            >
               Update
             </Card.Link>
             <Card.Link
