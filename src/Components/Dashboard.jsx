@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Project from "../Components/Project";
+import Project from "./Project";
+import Notifications from "./Notifications";
 import { Row, Col, Nav, Container, Navbar, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../Contexts/AuthContext';
+import AddMember from "./AddMember";
 
 const Dashboard = () => {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showAddMember, setShowAddMember] = useState(false);
   const [data, setData] = useState([]);
   const { loggedIn, handleLogout } = useAuth();
 
@@ -59,15 +63,8 @@ const Dashboard = () => {
               navbarScroll
             >
               <Nav.Link onClick={()=>navigate('/addproject')}>New Project</Nav.Link>
-              <Nav.Link onClick={()=>navigate('/notifications')}>Notifications</Nav.Link>
-              <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="🔎 Search user"
-                className="me-4"
-                aria-label="Search"
-              />
-            </Form>
+              <Nav.Link onClick={()=>setShowNotifications(!showNotifications)}>Notifications</Nav.Link>
+              <Nav.Link onClick={()=>setShowAddMember(!showAddMember)}>Add member</Nav.Link>
             </Nav>
             <Navbar.Brand className="ml-3 font-weight-bold">Welcome {user.name}
             </Navbar.Brand>
@@ -90,6 +87,8 @@ const Dashboard = () => {
           </Col>
         ))}
       </Row>
+      {showNotifications && <Notifications show={showNotifications} onClose={() => setShowNotifications(false)} />}
+      {showAddMember && <AddMember show={showAddMember} onClose={() => setShowAddMember(false)} />}
     </Container>
       <ToastContainer/>
     </div>
