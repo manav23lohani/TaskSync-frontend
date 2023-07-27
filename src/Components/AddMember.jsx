@@ -23,7 +23,7 @@ const AddMember = ({ show, onClose }) => {
               Authorization: `Bearer ${accessToken}`,
             };
             const res = await axios.post(
-              "http://localhost:5001/api/projectMember/sendRequest",
+              `${process.env.REACT_APP_URL}/api/projectMember/sendRequest`,
               formData,
               {
                 headers,

@@ -20,7 +20,7 @@ function Project({
         Authorization: `Bearer ${accessToken}`,
       };
       const response = await axios.delete(
-        `http://localhost:5001/api/projects/${projectId}`,
+        `${process.env.REACT_APP_URL}/api/projects/${projectId}`,
         {
           headers,
         }

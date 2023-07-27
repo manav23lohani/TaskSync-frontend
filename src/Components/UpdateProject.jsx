@@ -43,7 +43,7 @@ const location = useLocation();
       };
       
       const response = await axios.put(
-        `http://localhost:5001/api/projects/${projectId}`,
+        `${process.env.REACT_APP_URL}/api/projects/${projectId}`,
         updateData,
         {
           headers,

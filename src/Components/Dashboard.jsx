@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Project from "./Project";
 import Notifications from "./Notifications";
-import { Row, Col, Nav, Container, Navbar, Form, Button } from "react-bootstrap";
+import { Row, Col, Nav, Container, Navbar, Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../Contexts/AuthContext';
 import AddMember from "./AddMember";
@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAddMember, setShowAddMember] = useState(false);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(1);
   const { loggedIn, handleLogout } = useAuth();
 
   const navigate = useNavigate();
@@ -36,11 +37,12 @@ const Dashboard = () => {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const response = await axios.get("http://localhost:5001/api/projects", {
+      const response = await axios.get(`${process.env.REACT_APP_URL}/api/projects`, {
         headers,
       });
       // console.log(response);
       setData(response.data);
+      setLoading(0);
     } 
     catch (err) {
       toast.warn("Please login first!", {
@@ -93,6 +95,10 @@ const Dashboard = () => {
       <ToastContainer/>
     </div>
     )}
+    {loading && (<div className="d-flex justify-content-center align-items-center" style={{height: '40vh'}}>
+      <Spinner animation="border" role="status" />
+      <span>Loading...</span>
+    </div>)}
     </>
   );
 };

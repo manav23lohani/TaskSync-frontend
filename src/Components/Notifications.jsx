@@ -17,7 +17,7 @@ const Notifications = ({ show, onClose }) => {
           Authorization: `Bearer ${accessToken}`,
         };
         const res = await axios.post(
-          "http://localhost:5001/api/projectMember/acceptRequest",
+          `${process.env.REACT_APP_URL}/api/projectMember/acceptRequest`,
           {projectId},
           {
             headers,
@@ -40,7 +40,7 @@ const Notifications = ({ show, onClose }) => {
           Authorization: `Bearer ${accessToken}`,
         };
         const res = await axios.post(
-          "http://localhost:5001/api/projectMember/declineRequest",
+          `${process.env.REACT_APP_URL}/api/projectMember/declineRequest`,
           {projectId},
           {
             headers,
@@ -64,7 +64,7 @@ const Notifications = ({ show, onClose }) => {
               Authorization: `Bearer ${accessToken}`,
             };
             const res = await axios.get(
-              "http://localhost:5001/api/projectMember/recieveRequests",
+              `${process.env.REACT_APP_URL}/api/projectMember/recieveRequests`,
               {
                 headers,
               }

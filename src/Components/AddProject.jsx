@@ -32,7 +32,7 @@ const AddProject = () => {
         Authorization: `Bearer ${accessToken}`,
       };
       const response = await axios.post(
-        "http://localhost:5001/api/projects",
+        `${process.env.REACT_APP_URL}/api/projects`,
         formData,
         {
           headers,
