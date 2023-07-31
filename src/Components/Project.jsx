@@ -44,7 +44,6 @@ function Project({
             {isOwner ? "Owner" : "Member"}
           </Badge>
         </div>
-        {isOwner && <Card.Subtitle className="mb-3 text-muted">Id: {projectId}</Card.Subtitle>}
         <Card.Subtitle className="mb-4 text-muted">{techstack}</Card.Subtitle>
         <Card.Text>{description}</Card.Text>
         {isOwner && (

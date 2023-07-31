@@ -7,27 +7,30 @@ import Notifications from "./Notifications";
 import { Row, Col, Nav, Container, Navbar, Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../Contexts/AuthContext';
+import {useProjectContext} from '../Contexts/ProjectsContext';
 import AddMember from "./AddMember";
 
 const Dashboard = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showAddMember, setShowAddMember] = useState(false);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(1);
+
+  const [loading, setLoading] = useState(true);
+
   const { loggedIn, handleLogout } = useAuth();
+  const { projects, setProjects } = useProjectContext();
 
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userinfo"));
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [showNotifications]);
   const clickedLogout = ()=>{
     handleLogout();
     toast.done("Logged out successfully");
     navigate('/signin');
   }
   const handleProjectDeletion = (deletedProjectId) => {
-    setData((data) => data.filter((item) => item._id !== deletedProjectId));
+    setProjects((data) => data.filter((project) => project._id !== deletedProjectId));
     toast.success("Project deleted successfully");
   };
 
@@ -41,8 +44,8 @@ const Dashboard = () => {
         headers,
       });
       // console.log(response);
-      setData(response.data);
-      setLoading(0);
+      setProjects(response.data);
+      setLoading(false);
     } 
     catch (err) {
       toast.warn("Please login first!", {
@@ -76,14 +79,14 @@ const Dashboard = () => {
       </Navbar>
        <Container className="my-4 mx-auto" style={{ maxWidth: "1200px" }}>
       <Row>
-        {data.map((item) => (
-          <Col className="my-3" key={item.id} xs={12} sm={6} md={4} lg={4}>
+        {projects.map((project) => (
+          <Col className="my-3" key={project.id} xs={12} sm={6} md={4} lg={4}>
             <Project
-              title={item.title}
-              description={item.description}
-              techstack={item.techStack}
-              isOwner={item.user_id === user.id}
-              projectId={item._id}
+              title={project.title}
+              description={project.description}
+              techstack={project.techStack}
+              isOwner={project.user_id === user.id}
+              projectId={project._id}
               onDelete={handleProjectDeletion}
             />
           </Col>
@@ -95,7 +98,7 @@ const Dashboard = () => {
       <ToastContainer/>
     </div>
     )}
-    {loading && (<div className="d-flex justify-content-center align-items-center" style={{height: '40vh'}}>
+    {loading && (<div className="d-flex justify-content-center align-projects-center">
       <Spinner animation="border" role="status" />
       <span>Loading...</span>
     </div>)}

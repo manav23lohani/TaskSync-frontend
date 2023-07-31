@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Modal, Button, Card, Row, Col } from "react-bootstrap";
+import { Modal, Button, Card, Row, Col, Spinner } from "react-bootstrap";
 
 const Notifications = ({ show, onClose }) => {
+  const [loading, setLoading] = useState(true);
   const[requests, setRequests] = useState([]);
   useEffect(() => {
     fetchRequests();
@@ -34,7 +35,6 @@ const Notifications = ({ show, onClose }) => {
   
     const declineRequest = async(projectId)=>{
       try {
-
         const accessToken = localStorage.getItem("accessToken");
         const headers = {
           Authorization: `Bearer ${accessToken}`,
@@ -70,6 +70,7 @@ const Notifications = ({ show, onClose }) => {
               }
             );
             // console.log(res);
+            setLoading(false);
             setRequests(res.data);
           } catch (err) {
             // toast.error(err.response.data.message);
@@ -83,7 +84,7 @@ const Notifications = ({ show, onClose }) => {
         <Modal.Title>Notifications</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      {requests.length === 0 ? (
+      {!loading && requests.length === 0 ? (
           <p className="d-flex align-items-center justify-content-center">No notifications</p>
         ) : (
           requests.map((request) => (
@@ -108,6 +109,10 @@ const Notifications = ({ show, onClose }) => {
         </Card>
       ))
         )}
+        {loading && (<div className="d-flex justify-content-center align-projects-center">
+      <Spinner animation="border" role="status" />
+      <span>Loading...</span>
+    </div>)}
       </Modal.Body>
     </Modal>
   );
