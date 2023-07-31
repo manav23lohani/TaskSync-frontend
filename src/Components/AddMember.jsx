@@ -15,7 +15,7 @@ const AddMember = ({ show, onClose }) => {
     }));
   };
   const [formData, setFormData] = useState({
-    userName: "",
+    userMail: "",
     projectId: "",
   });
   const sendRequest = async (e) => {
