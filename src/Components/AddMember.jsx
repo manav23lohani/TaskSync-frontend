@@ -81,9 +81,6 @@ const AddMember = ({ show, onClose }) => {
           <Button variant="primary" type="submit" className="me-2">
             Send Request
           </Button>
-          <Button variant="secondary" onClick={onClose}>
-            Close
-          </Button>
         </form>
       </Modal.Body>
     </Modal>

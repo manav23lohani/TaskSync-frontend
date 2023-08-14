@@ -1,15 +1,24 @@
 import { React, useState } from "react";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import {
+  Col,
+  Button,
+  Row,
+  Container,
+  Card,
+  Form,
+  Spinner,
+} from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from '../Contexts/AuthContext';
+import { useAuth } from "../Contexts/AuthContext";
 
-export default function SignIn() {  
+export default function SignIn() {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const { handleLogin } = useAuth();
   const navigate = useNavigate();
@@ -18,12 +27,16 @@ export default function SignIn() {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     try {
       e.preventDefault();
-      const response = await axios.post(`${process.env.REACT_APP_URL}/api/users/login`, {
-        email: formData.email,
-        password: formData.password
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_URL}/api/users/login`,
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
       console.log(response);
 
       const accessToken = response.data.token;
@@ -31,13 +44,15 @@ export default function SignIn() {
       const id = response.data.id;
 
       handleLogin(accessToken);
-      localStorage.setItem('userinfo', JSON.stringify({name,id}));
+      localStorage.setItem("userinfo", JSON.stringify({ name, id }));
       setFormData({
-        email: '',
-        password: ''
+        email: "",
+        password: "",
       });
-      navigate('/dashboard');
+      setLoading(false);
+      navigate("/dashboard");
     } catch (err) {
+      setLoading(false);
       toast.error(`${err.response.data.message}`);
       console.log(err);
     }
@@ -81,16 +96,28 @@ export default function SignIn() {
                           onChange={handleChange}
                         />
                       </Form.Group>
-                      <div className="d-grid">
-                        <Button variant="primary" type="submit">
-                          Log In
-                        </Button>
-                      </div>
+                      {!loading && (
+                        <div className="d-grid">
+                          <Button variant="primary" type="submit">
+                            Log In
+                          </Button>
+                        </div>
+                      )}
+                      {loading && (
+                        <div className="d-flex justify-content-center align-projects-center">
+                          <Spinner animation="border" role="status" />
+                          <span>Please wait...</span>
+                        </div>
+                      )}
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Don't have an account??
-                        <span style={{cursor: 'pointer'}} onClick={()=>navigate('/signup')} className="text-primary fw-bold">
+                        <span
+                          style={{ cursor: "pointer" }}
+                          onClick={() => navigate("/signup")}
+                          className="text-primary fw-bold"
+                        >
                           Sign Up
                         </span>
                       </p>

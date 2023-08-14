@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Form, Button, Container, Col } from "react-bootstrap";
+import { Form, Button, Col, Modal } from "react-bootstrap";
 
-const AddProject = () => {
-  const navigate = useNavigate();
+const AddProject = ({ show , onClose }) => {
   const [formData, setFormData] = useState({
     title: "",
     status: "pending",
@@ -27,7 +25,7 @@ const AddProject = () => {
     try {
       e.preventDefault();
       const accessToken = localStorage.getItem("accessToken");
-      console.log(accessToken);
+      // console.log(accessToken);
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
@@ -39,21 +37,20 @@ const AddProject = () => {
         }
       );
       toast.success('Project added successfully');
-      navigate('/dashboard');
+      onClose();
     } catch (err) {
+      toast.error("Please try again!");
       console.log(err);
+      onClose();
     }
   };
 
   return (
-    <Container
-      className="mt-5 p-4"
-      style={{
-        maxWidth: "800px",
-        border: "3px solid #ccc",
-        borderRadius: "5px",
-      }}
-    >
+    <Modal show={show} onHide={onClose} centered>
+    <Modal.Header closeButton>
+      <Modal.Title>Add Project</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="title">
           <Form.Label>Title:</Form.Label>
@@ -140,7 +137,8 @@ const AddProject = () => {
           Add Project
         </Button>
       </Form>
-    </Container>
+      </Modal.Body>
+    </Modal>
   );
 };
 
