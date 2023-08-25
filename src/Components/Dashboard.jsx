@@ -61,10 +61,13 @@ const Dashboard = () => {
       // console.log(response.data.length);
       setProjects(response.data);
       setLoading(false);
-    } catch (err) {
-      toast.warn("Please login first!", {
+    }
+    // token is either expired/invalid or missing
+    catch (err) {
+      toast.info("Please login first!", {
         toastId: "id1",
       });
+      handleLogout();
       navigate("/signin");
     }
   };
