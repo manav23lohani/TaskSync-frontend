@@ -40,7 +40,7 @@ const AddProject = ({ show , onClose }) => {
       onClose();
     } catch (err) {
       toast.error("Please try again!");
-      console.log(err);
+      // console.log(err);
       onClose();
     }
   };

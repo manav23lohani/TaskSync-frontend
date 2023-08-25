@@ -27,7 +27,7 @@ export default function SignUp() {
         password: formData.password,
         confirmPassword: formData.confirmPassword
       });
-      console.log(response);
+      // console.log(response);
       toast.success(`${response.data.message}`);
       setFormData({
         name: '',

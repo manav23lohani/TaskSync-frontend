@@ -37,7 +37,7 @@ export default function SignIn() {
           password: formData.password,
         }
       );
-      console.log(response);
+      // console.log(response);
 
       const accessToken = response.data.token;
       const name = response.data.username;

@@ -29,7 +29,7 @@ const location = useLocation();
     try {
       e.preventDefault();
       const accessToken = localStorage.getItem("accessToken");
-      console.log(accessToken);
+      // console.log(accessToken);
 
       const updateData = {};
       Object.keys(formData).forEach((key) => {

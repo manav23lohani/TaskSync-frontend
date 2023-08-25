@@ -26,7 +26,7 @@ function Project({
         }
       );
       onDelete(projectId);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       toast.warn(err.response.data.message);
       console.log(err);

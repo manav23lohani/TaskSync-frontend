@@ -27,7 +27,7 @@ const Notifications = ({ show, onClose }) => {
         setRequests((requests) =>
         requests.filter((request) => request.projectId !== projectId)
       );
-        console.log(res);
+        // console.log(res);
       } catch (err) {
         console.log(err);
       }
@@ -49,7 +49,7 @@ const Notifications = ({ show, onClose }) => {
         setRequests((requests) =>
         requests.filter((request) => request.projectId !== projectId)
       );
-        console.log(res);
+        // console.log(res);
       } catch (err) {
         // toast.error(err.response.data.message);
         console.log(err);
