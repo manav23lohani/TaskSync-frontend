@@ -1,5 +1,5 @@
-// AuthContext.js
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = createContext();
 
@@ -8,7 +8,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [loggedIn, setLoggedIn] = useState(localStorage.getItem('accessToken') !== null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = (accessToken) => {
     localStorage.setItem('accessToken', accessToken);
@@ -19,6 +19,24 @@ export function AuthProvider({ children }) {
     localStorage.clear();
     setLoggedIn(false);
   };
+
+  const checkTokenValidity = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      const decodedToken = jwtDecode(accessToken);
+      if (decodedToken.exp * 1000 < Date.now()) {
+        // Token is expired
+        handleLogout();
+      }
+      else{
+        setLoggedIn(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkTokenValidity();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ loggedIn, handleLogin, handleLogout }}>

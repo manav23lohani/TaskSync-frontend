@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -27,18 +27,16 @@ export default function SignUp() {
         password: formData.password,
         confirmPassword: formData.confirmPassword
       });
-      // console.log(response);
-      toast.success(`${response.data.message}`);
       setFormData({
         name: '',
         email: '',
         password: '',
         confirmPassword: ''
       });
-      setTimeout(()=>navigate('/signin'),1500);
+      toast.success(`${response.data.message}`);
+      navigate('/signin');
     } catch (err) {
       toast.error(`${err.response.data.message}`);
-      console.log(err);
     }
   };
   return (
@@ -127,7 +125,6 @@ export default function SignUp() {
           </Col>
         </Row>
       </Container>
-      <ToastContainer />
     </div>
   );
 }

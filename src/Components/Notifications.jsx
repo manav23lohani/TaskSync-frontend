@@ -17,7 +17,7 @@ const Notifications = ({ show, onClose }) => {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-        const res = await axios.post(
+        await axios.post(
           `${process.env.REACT_APP_URL}/api/projectMember/acceptRequest`,
           {projectId},
           {
@@ -27,9 +27,8 @@ const Notifications = ({ show, onClose }) => {
         setRequests((requests) =>
         requests.filter((request) => request.projectId !== projectId)
       );
-        // console.log(res);
       } catch (err) {
-        console.log(err);
+        toast.error('Please try again!');        
       }
     }
   
@@ -39,7 +38,7 @@ const Notifications = ({ show, onClose }) => {
         const headers = {
           Authorization: `Bearer ${accessToken}`,
         };
-        const res = await axios.post(
+        await axios.post(
           `${process.env.REACT_APP_URL}/api/projectMember/declineRequest`,
           {projectId},
           {
@@ -49,10 +48,8 @@ const Notifications = ({ show, onClose }) => {
         setRequests((requests) =>
         requests.filter((request) => request.projectId !== projectId)
       );
-        // console.log(res);
       } catch (err) {
-        // toast.error(err.response.data.message);
-        console.log(err);
+        toast.error('Please try again!');
       }
     }
 
@@ -69,12 +66,9 @@ const Notifications = ({ show, onClose }) => {
                 headers,
               }
             );
-            // console.log(res);
             setLoading(false);
             setRequests(res.data);
           } catch (err) {
-            // toast.error(err.response.data.message);
-            console.log(err);
             onClose();
           }
     }

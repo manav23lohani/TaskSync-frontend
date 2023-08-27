@@ -1,14 +1,6 @@
 import { React, useState } from "react";
-import {
-  Col,
-  Button,
-  Row,
-  Container,
-  Card,
-  Form,
-  Spinner,
-} from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
+import { Col, Button, Row, Container, Card, Form, Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -37,8 +29,6 @@ export default function SignIn() {
           password: formData.password,
         }
       );
-      // console.log(response);
-
       const accessToken = response.data.token;
       const name = response.data.username;
       const id = response.data.id;
@@ -54,7 +44,6 @@ export default function SignIn() {
     } catch (err) {
       setLoading(false);
       toast.error(`${err.response.data.message}`);
-      console.log(err);
     }
   };
   return (
@@ -129,7 +118,6 @@ export default function SignIn() {
           </Col>
         </Row>
       </Container>
-      <ToastContainer />
     </div>
   );
 }

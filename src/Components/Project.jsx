@@ -11,7 +11,6 @@ function Project({
   projectId,
   onDelete,
 }) {
-  // console.log(projectId);
   const navigate = useNavigate();
   const deleteProject = async () => {
     try {
@@ -19,17 +18,15 @@ function Project({
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const response = await axios.delete(
+      await axios.delete(
         `${process.env.REACT_APP_URL}/api/projects/${projectId}`,
         {
           headers,
         }
       );
       onDelete(projectId);
-      // console.log(response);
     } catch (err) {
       toast.warn(err.response.data.message);
-      console.log(err);
     }
   };
   const updateProject = () => {

@@ -4,15 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Project from "./Project";
 import Notifications from "./Notifications";
-import {
-  Row,
-  Col,
-  Nav,
-  Container,
-  Navbar,
-  Button,
-  Spinner,
-} from "react-bootstrap";
+import { Row, Col, Nav, Container, Navbar, Button, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { useProjectContext } from "../Contexts/ProjectsContext";
@@ -31,12 +23,14 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("userinfo"));
+
   useEffect(() => {
     fetchData();
   }, [showNotifications, showAddProject]);
+  
   const clickedLogout = () => {
     handleLogout();
-    toast.done("Logged out successfully");
+    toast.info("Logged out successfully");
     navigate("/signin");
   };
   const handleProjectDeletion = (deletedProjectId) => {
@@ -58,15 +52,13 @@ const Dashboard = () => {
           headers,
         }
       );
-      // console.log(response.data.length);
       setProjects(response.data);
       setLoading(false);
-    }
-    // token is either expired/invalid or missing
-    catch (err) {
-      toast.info("Please login first!", {
-        toastId: "id1",
-      });
+    } catch (err) {
+      // token is either expired/invalid or missing
+      toast.info("Session expired! Please try again", {
+        toastId: 'id1',
+    });
       handleLogout();
       navigate("/signin");
     }
@@ -106,14 +98,7 @@ const Dashboard = () => {
             {projects.length > 0 && (
               <Row>
                 {projects.map((project) => (
-                  <Col
-                    className="my-3"
-                    key={project.id}
-                    xs={12}
-                    sm={6}
-                    md={4}
-                    lg={4}
-                  >
+                  <Col className="my-3" key={project.id} xs={12} sm={6} md={4} lg={4}>
                     <Project
                       title={project.title}
                       description={project.description}
@@ -126,7 +111,7 @@ const Dashboard = () => {
                 ))}
               </Row>
             )}
-            {!projects.length && !loading &&(
+            {!projects.length && !loading && (
               <div style={{ display: "flex" }}>
                 <img
                   src="./home.jpg"
@@ -176,7 +161,7 @@ const Dashboard = () => {
         </div>
       )}
       {loading && (
-        <div className="d-flex justify-content-center align-projects-center">
+        <div className="d-flex justify-content-center mt-5 align-projects-center">
           <Spinner animation="border" role="status" />
           <span>Loading...</span>
         </div>

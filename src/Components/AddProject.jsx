@@ -25,11 +25,10 @@ const AddProject = ({ show , onClose }) => {
     try {
       e.preventDefault();
       const accessToken = localStorage.getItem("accessToken");
-      // console.log(accessToken);
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_URL}/api/projects`,
         formData,
         {
@@ -39,8 +38,7 @@ const AddProject = ({ show , onClose }) => {
       toast.success('Project added successfully');
       onClose();
     } catch (err) {
-      toast.error("Please try again!");
-      // console.log(err);
+      toast.error('Project not added');
       onClose();
     }
   };

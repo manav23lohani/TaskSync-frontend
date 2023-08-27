@@ -32,12 +32,10 @@ const AddMember = ({ show, onClose }) => {
           headers,
         }
       );
-      // console.log(res);
       toast.info(res.data.message);
       onClose();
     } catch (err) {
       toast.error("Project/ User ID is invalid");
-      // console.log(err);
       onClose();
     }
   };

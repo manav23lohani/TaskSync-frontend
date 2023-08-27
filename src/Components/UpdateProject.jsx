@@ -7,7 +7,6 @@ import { Form, Button, Container, Col } from "react-bootstrap";
 const UpdateProject = () => {
 const location = useLocation();
   const projectId = location.state.projectId;
-  console.log(projectId);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     status: "",
@@ -29,7 +28,6 @@ const location = useLocation();
     try {
       e.preventDefault();
       const accessToken = localStorage.getItem("accessToken");
-      // console.log(accessToken);
 
       const updateData = {};
       Object.keys(formData).forEach((key) => {
@@ -42,17 +40,18 @@ const location = useLocation();
         Authorization: `Bearer ${accessToken}`,
       };
       
-      const response = await axios.put(
+      await axios.put(
         `${process.env.REACT_APP_URL}/api/projects/${projectId}`,
         updateData,
         {
           headers,
         }
       );
-      toast.success('Project updated successfully');
+      toast.success('Project updated successfully!');
       navigate('/dashboard');
     } catch (err) {
-      console.log(err);
+      toast.error('Project updation failed!');
+      navigate('/dashboard');
     }
   };
 
